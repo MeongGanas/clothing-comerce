@@ -1,7 +1,16 @@
-import ProductCard from "@/Components/MyComponent/Card";
+import ClothCard from "@/Components/MyComponent/Card";
 import MainLayout from "@/Layouts/MainLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/Components/ui/pagination";
 
 export default function Home({ auth }: PageProps) {
     return (
@@ -19,12 +28,36 @@ export default function Home({ auth }: PageProps) {
                         </p>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                <div className="grid grid-cols-1 gap-5 mb-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    <ClothCard />
+                    <ClothCard />
+                    <ClothCard />
+                    <ClothCard />
                 </div>
+                <Pagination>
+                    <PaginationContent>
+                        <PaginationItem>
+                            <PaginationPrevious href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#" isActive>
+                                2
+                            </PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink href="#">3</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationNext href="#" />
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
             </div>
         </MainLayout>
     );

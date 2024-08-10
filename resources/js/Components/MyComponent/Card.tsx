@@ -1,9 +1,9 @@
-import { Product } from "@/types";
+import { Cloth } from "@/types";
 import { Link } from "@inertiajs/react";
 
-export default function ProductCard({ product }: { product?: Product }) {
+export default function ClothCard({ cloth }: { cloth?: Cloth }) {
     return (
-        <Link href="/" className="w-full space-y-4">
+        <Link href="/" className="w-full max-w-xs mx-auto space-y-4">
             <div className="overflow-hidden border rounded-2xl">
                 <img src="/images/baju.jpg" alt="" />
             </div>

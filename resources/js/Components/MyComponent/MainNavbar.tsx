@@ -23,7 +23,7 @@ export default function MainNavbar({ user }: { user: User }) {
     return (
         <header className="sticky top-0 flex items-center justify-between w-full h-16 gap-4 px-4 border-b bg-background md:px-6">
             <nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-                <NavLink name="Home" link="" />
+                <NavLink name="New Arival" link="" />
                 <NavLink name="All product" link="products" />
                 <NavLink name="Men" link="men" />
                 <NavLink name="Women" link="women" />
@@ -60,10 +60,21 @@ export default function MainNavbar({ user }: { user: User }) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuLabel>
+                                {user.first_name}
+                            </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem>Settings</DropdownMenuItem>
-                            <DropdownMenuItem>Support</DropdownMenuItem>
+                            {user.role === "admin" && (
+                                <DropdownMenuItem
+                                    asChild
+                                    className="cursor-pointer"
+                                >
+                                    <Link href={route("dashboard")}>
+                                        Dashboard
+                                    </Link>
+                                </DropdownMenuItem>
+                            )}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 asChild
@@ -143,7 +154,7 @@ function NavbarSheet() {
                     >
                         <span>MyBrand</span>
                     </Link>
-                    <NavLink name="Home" link="" />
+                    <NavLink name="New Arival" link="" />
                     <NavLink name="All product" link="products" />
                     <NavLink name="Men" link="men" />
                     <NavLink name="Women" link="women" />
