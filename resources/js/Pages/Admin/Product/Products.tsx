@@ -29,7 +29,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { PageProps } from "@/types";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 
 export default function Products({ auth }: PageProps) {
     return (
@@ -86,11 +86,13 @@ export default function Products({ auth }: PageProps) {
                                 Export
                             </span>
                         </Button>
-                        <Button size="sm" className="h-8 gap-1">
-                            <PlusCircle className="h-3.5 w-3.5" />
-                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                Add Product
-                            </span>
+                        <Button size="sm" asChild className="h-8 gap-1">
+                            <Link href="/dashboard/products/add">
+                                <PlusCircle className="h-3.5 w-3.5" />
+                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                    Add Product
+                                </span>
+                            </Link>
                         </Button>
                     </div>
                 </div>

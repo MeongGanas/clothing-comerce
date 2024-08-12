@@ -14,6 +14,10 @@ export interface Cloth {
     description: string;
     size: string;
     variant: string;
+    category: string;
+    product: string;
+    isFeatured: boolean;
+    isArchived: boolean;
     color: string;
     price: number;
     image: string;

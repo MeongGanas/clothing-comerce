@@ -12,11 +12,15 @@ Route::middleware(['auth', 'roleCheck'])->group(function () {
         return Inertia::render('Admin/Dashboard');
     })->name("dashboard");
 
-    Route::get('/products', function () {
-        return Inertia::render('Admin/Products');
+    Route::get('/dashboard/products', function () {
+        return Inertia::render('Admin/Product/Products');
     })->name("products");
 
-    Route::get('/orders', function () {
+    Route::get('/dashboard/products/add', function () {
+        return Inertia::render('Admin/Product/AddProduct');
+    })->name("add_products");
+
+    Route::get('/dashboard/orders', function () {
         return Inertia::render('Admin/Orders');
     })->name("orders");
 });

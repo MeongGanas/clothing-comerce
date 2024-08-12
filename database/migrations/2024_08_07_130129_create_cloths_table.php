@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string("name");
             $table->string("description");
             $table->enum("size", ["xs", "s", "m", 'l', 'xl', 'xxl']);
+            $table->enum("category", ["man", "women", "kids"]);
+            $table->enum("product", ["tshirt", "jacket", "shoes", "pants", "sunglasses", "tuxedo"]);
+            $table->boolean("isFutured");
+            $table->boolean("isArchived");
             $table->string("color");
             $table->integer("price");
             $table->string("image");

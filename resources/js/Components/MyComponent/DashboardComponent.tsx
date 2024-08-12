@@ -1,4 +1,5 @@
 import {
+    Building,
     Home,
     LineChart,
     LucideIcon,
@@ -35,6 +36,7 @@ import {
     TooltipTrigger,
 } from "@/Components/ui/tooltip";
 import { Link } from "@inertiajs/react";
+import React from "react";
 
 function AsideLink({
     link,
@@ -89,7 +91,7 @@ export function DashboardAside() {
                 <Tooltip>
                     <AsideLink
                         name="Orders"
-                        link="/orders"
+                        link="/dashboard/orders"
                         active="orders"
                         Icon={ShoppingCart}
                     />
@@ -97,7 +99,7 @@ export function DashboardAside() {
                 <Tooltip>
                     <AsideLink
                         name="Products"
-                        link="/products"
+                        link="/dashboard/products"
                         active="products"
                         Icon={Package}
                     />
@@ -105,7 +107,7 @@ export function DashboardAside() {
                 <Tooltip>
                     <AsideLink
                         name="Customers"
-                        link="/customers"
+                        link="/dashboard/customers"
                         active="customers"
                         Icon={Users2}
                     />
@@ -116,6 +118,11 @@ export function DashboardAside() {
 }
 
 export function DashboardHeader() {
+    const currentPath = window.location.pathname.split("/").slice(1);
+    const pathLoop = currentPath.slice(0, -1);
+
+    let builtPath = "";
+
     return (
         <header className="sticky top-0 z-30 flex items-center gap-4 px-4 border-b h-14 bg-background sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
             <Sheet>
@@ -132,7 +139,6 @@ export function DashboardHeader() {
                             className="flex items-center justify-center w-10 h-10 gap-2 text-lg font-semibold rounded-full group shrink-0 bg-primary text-primary-foreground md:text-base"
                         >
                             <Package2 className="w-5 h-5 transition-all group-hover:scale-110" />
-                            <span className="sr-only">Acme Inc</span>
                         </Link>
                         <Link
                             href="#"
@@ -174,20 +180,31 @@ export function DashboardHeader() {
             </Sheet>
             <Breadcrumb className="hidden md:flex">
                 <BreadcrumbList>
+                    {pathLoop.map((path, i) => {
+                        builtPath += `/${path}`;
+
+                        return (
+                            <React.Fragment key={i}>
+                                <BreadcrumbItem>
+                                    <BreadcrumbLink asChild>
+                                        <Link
+                                            href={builtPath}
+                                            className="capitalize"
+                                        >
+                                            {path}
+                                        </Link>
+                                    </BreadcrumbLink>
+                                </BreadcrumbItem>
+                                {i < currentPath.length - 1 && (
+                                    <BreadcrumbSeparator />
+                                )}
+                            </React.Fragment>
+                        );
+                    })}
                     <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                            <Link href="#">Dashboard</Link>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                            <Link href="#">Products</Link>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbPage>All Products</BreadcrumbPage>
+                        <BreadcrumbPage className="capitalize">
+                            {currentPath[currentPath.length - 1]}
+                        </BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
