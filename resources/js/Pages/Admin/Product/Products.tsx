@@ -87,7 +87,7 @@ export default function Products({ auth }: PageProps) {
                             </span>
                         </Button>
                         <Button size="sm" asChild className="h-8 gap-1">
-                            <Link href="/dashboard/products/add">
+                            <Link href="/dashboard/products/create">
                                 <PlusCircle className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                                     Add Product
@@ -139,7 +139,7 @@ export default function Products({ auth }: PageProps) {
                                                 alt="Product image"
                                                 className="object-cover rounded-md aspect-square"
                                                 height="64"
-                                                src="/placeholder.svg"
+                                                src="/images/baju.jpg"
                                                 width="64"
                                             />
                                         </TableCell>

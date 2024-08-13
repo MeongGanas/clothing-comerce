@@ -10,7 +10,7 @@ export default function MainLayout({
     return (
         <>
             <MainNavbar user={user} />
-            <main className="container">{children}</main>
+            <main className="container px-4 sm:px-8">{children}</main>
             <Footer />
         </>
     );

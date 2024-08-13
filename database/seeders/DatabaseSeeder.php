@@ -19,7 +19,15 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Admin',
             'phone' => '0895384961429',
             'role' => 'admin',
-            'email' => 'farreluken@gmail.com',
+            'email' => 'admin@gmail.com',
+            'password' => '1234'
+        ]);
+
+        User::factory()->create([
+            'first_name' => 'User',
+            'phone' => '089538496142',
+            'role' => 'user',
+            'email' => 'user@gmail.com',
             'password' => '1234'
         ]);
     }

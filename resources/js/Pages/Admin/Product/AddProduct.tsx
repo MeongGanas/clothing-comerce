@@ -31,9 +31,9 @@ import { Textarea } from "@/Components/ui/textarea";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { PageProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import axios from "axios";
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -48,12 +48,15 @@ const productSchema = z.object({
     isArchived: z.boolean(),
     color: z.string(),
     price: z.string(),
-    image: z.string(),
+    image: z
+        .instanceof(FileList)
+        .refine((file) => file?.length == 1, "File is required."),
 });
 
 type ProductSchema = z.infer<typeof productSchema>;
 
 export default function AddProduct({ auth }: PageProps) {
+    const [preview, setPreview] = useState<string | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const form = useForm<ProductSchema>({
@@ -68,32 +71,56 @@ export default function AddProduct({ auth }: PageProps) {
             isArchived: false,
             color: "",
             price: "",
-            image: "",
         },
     });
 
     const { handleSubmit, control } = form;
 
+    const fileRef = form.register("image");
+
     const submit = handleSubmit((values) => {
-        console.log(values);
-        // setIsSubmitted(true);
+        setIsSubmitted(true);
 
-        // const promise = axios.post("/login", values);
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("description", values.description);
+        formData.append("size", values.size);
+        formData.append("category", values.category);
+        formData.append("product", values.product);
+        formData.append("isFeatured", values.isFeatured.toString());
+        formData.append("isArchived", values.isArchived.toString());
+        formData.append("color", values.color);
+        formData.append("price", values.price);
+        formData.append("name", values.name);
+        formData.append("image", values.image[0]);
 
-        // toast.promise(promise, {
-        //     loading: "Loading...",
-        //     success: () => {
-        //         setIsSubmitted(false);
-        //         window.location.replace("/");
-        //         return "Login Success!";
-        //     },
-        //     error: (err) => {
-        //         console.log(err);
-        //         setIsSubmitted(false);
-        //         return "Something went wrong";
-        //     },
-        // });
+        const promise = axios.post("/dashboard/products", formData);
+
+        toast.promise(promise, {
+            loading: "Loading...",
+            success: (res) => {
+                console.log(res);
+                setIsSubmitted(false);
+                // window.location.replace("/dashboard/products");
+                return "Add Product Success!";
+            },
+            error: (err) => {
+                console.log(err);
+                setIsSubmitted(false);
+                return "Something went wrong";
+            },
+        });
+
+        setIsSubmitted(false);
     });
+
+    const handlePreview = (e: SyntheticEvent) => {
+        const target = e.target as HTMLInputElement;
+        const file = target.files?.[0];
+        if (file) {
+            setPreview(URL.createObjectURL(file));
+        }
+    };
 
     return (
         <DashboardLayout user={auth.user}>
@@ -114,12 +141,22 @@ export default function AddProduct({ auth }: PageProps) {
                                 render={({ field }) => (
                                     <FormItem className="grid gap-2">
                                         <FormLabel>Product Image</FormLabel>
+                                        {preview && (
+                                            <img
+                                                src={preview}
+                                                className="w-60"
+                                                alt=""
+                                            />
+                                        )}
                                         <FormControl>
                                             <Input
                                                 type="file"
                                                 accept="image/*"
                                                 required
-                                                {...field}
+                                                {...fileRef}
+                                                onChange={(e) =>
+                                                    handlePreview(e)
+                                                }
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -373,7 +410,14 @@ export default function AddProduct({ auth }: PageProps) {
                                 )}
                             />
                         </CardContent>
-                        <CardFooter>
+                        <CardFooter className="flex gap-4">
+                            <Button
+                                asChild
+                                variant={"outline"}
+                                disabled={isSubmitted}
+                            >
+                                <Link href="/dashboard/products">Cancel</Link>
+                            </Button>
                             <Button type="submit" disabled={isSubmitted}>
                                 Add Now
                             </Button>

@@ -135,45 +135,38 @@ export function DashboardHeader() {
                 <SheetContent side="left" className="sm:max-w-xs">
                     <nav className="grid gap-6 text-lg font-medium">
                         <Link
-                            href="#"
+                            href="/dashboard"
                             className="flex items-center justify-center w-10 h-10 gap-2 text-lg font-semibold rounded-full group shrink-0 bg-primary text-primary-foreground md:text-base"
                         >
                             <Package2 className="w-5 h-5 transition-all group-hover:scale-110" />
                         </Link>
                         <Link
-                            href="#"
+                            href="/dashboard"
                             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                         >
                             <Home className="w-5 h-5" />
                             Dashboard
                         </Link>
                         <Link
-                            href="#"
+                            href="/dashboard/orders"
                             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                         >
                             <ShoppingCart className="w-5 h-5" />
                             Orders
                         </Link>
                         <Link
-                            href="#"
+                            href="/dashboard/products"
                             className="flex items-center gap-4 px-2.5 text-foreground"
                         >
                             <Package className="w-5 h-5" />
                             Products
                         </Link>
                         <Link
-                            href="#"
+                            href="/dashboard/customers"
                             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                         >
                             <Users2 className="w-5 h-5" />
                             Customers
-                        </Link>
-                        <Link
-                            href="#"
-                            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                        >
-                            <LineChart className="w-5 h-5" />
-                            Settings
                         </Link>
                     </nav>
                 </SheetContent>
@@ -230,9 +223,15 @@ export function DashboardHeader() {
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                        <Link href="/">User View</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                    <DropdownMenuItem asChild className="cursor-pointer">
+                        <Link href={route("logout")} method="post">
+                            Logout
+                        </Link>
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         </header>

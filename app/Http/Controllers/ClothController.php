@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cloth;
 use App\Http\Requests\StoreClothRequest;
 use App\Http\Requests\UpdateClothRequest;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ClothController extends Controller
 {
@@ -13,7 +15,7 @@ class ClothController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Admin/Product/Products');
     }
 
     /**
@@ -21,15 +23,15 @@ class ClothController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Admin/Product/AddProduct');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClothRequest $request)
+    public function store(Request $request)
     {
-        //
+        return $request->file("image");
     }
 
     /**
@@ -51,7 +53,7 @@ class ClothController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClothRequest $request, Cloth $cloth)
+    public function update(Request $request, Cloth $cloth)
     {
         //
     }

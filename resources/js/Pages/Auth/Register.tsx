@@ -8,7 +8,6 @@ import {
     FormMessage,
 } from "@/Components/ui/form";
 import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Head, Link } from "@inertiajs/react";
 import axios from "axios";

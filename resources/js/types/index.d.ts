@@ -13,7 +13,6 @@ export interface Cloth {
     name: string;
     description: string;
     size: string;
-    variant: string;
     category: string;
     product: string;
     isFeatured: boolean;

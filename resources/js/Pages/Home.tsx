@@ -1,4 +1,4 @@
-import ClothCard from "@/Components/MyComponent/Card";
+import { ClothCard } from "@/Components/MyComponent/Card";
 import MainLayout from "@/Layouts/MainLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
