@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->foreignUuid("user_id");
             $table->foreignUuid("cloth_id");
+            $table->enum("size", ["xs", "s", "m", 'l', 'xl', 'xxl']);
             $table->integer("amount");
             $table->integer("total_price");
             $table->timestamps();

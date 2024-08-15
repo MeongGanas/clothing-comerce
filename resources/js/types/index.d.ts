@@ -22,18 +22,17 @@ export interface Cloth {
     image: string;
 }
 
-export interface Cart {
-    id: string;
-    user_id: string;
-    cloth_id: string;
-    amount: number;
-    total_price: number;
-}
-
 export interface Order {
     id: string;
     user_id: string;
     cloth_id: string;
+    size: string;
+    amount: number;
+    total_price: number;
+}
+
+export interface Cart {
+    product: Cloth;
     amount: number;
     total_price: number;
 }

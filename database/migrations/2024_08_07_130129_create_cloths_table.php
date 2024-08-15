@@ -15,14 +15,28 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->string("name");
             $table->string("description");
-            $table->enum("size", ["xs", "s", "m", 'l', 'xl', 'xxl']);
             $table->enum("category", ["man", "women", "kids"]);
             $table->enum("product", ["tshirt", "jacket", "shoes", "pants", "sunglasses", "tuxedo"]);
+            $table->enum("size", ["xs", "s", "m", 'l', 'xl', 'xxl']);
             $table->boolean("isFutured");
             $table->boolean("isArchived");
             $table->string("color");
             $table->integer("price");
             $table->string("image");
+            $table->timestamps();
+        });
+
+        Schema::create('cloth_colors', function (Blueprint $table) {
+            $table->uuid("id")->primary();
+            $table->foreignUuid('product_id');
+            $table->string('color');
+            $table->timestamps();
+        });
+
+        Schema::create('cloth_images', function (Blueprint $table) {
+            $table->uuid("id")->primary();
+            $table->foreignUuid('product_id');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -33,5 +47,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('cloths');
+        Schema::dropIfExists('cloth_colors');
+        Schema::dropIfExists('cloth_images');
     }
 };

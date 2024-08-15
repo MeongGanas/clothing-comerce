@@ -8,6 +8,10 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name("home");
 
+Route::get("/detail/{id}", function () {
+    return Inertia::render("ClothDetail");
+});
+
 Route::middleware(['auth', 'checkUser'])->group(function () {
     Route::get("/cart", function () {
         return Inertia::render("Cart");

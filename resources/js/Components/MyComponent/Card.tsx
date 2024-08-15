@@ -1,14 +1,13 @@
 import { Cart, Cloth } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Button } from "../ui/button";
-import { Heart, MinusCircle, MinusIcon, PlusCircle, Trash } from "lucide-react";
-import { SyntheticEvent, useCallback } from "react";
+import { Heart, MinusCircle, PlusCircle, Trash } from "lucide-react";
 
 export function ClothCard({ cloth }: { cloth?: Cloth }) {
     return (
-        <Link href="/" className="w-full max-w-xs mx-auto space-y-4">
-            <div className="overflow-hidden border rounded-2xl">
-                <img src="/images/baju.png" alt="" />
+        <Link href="/detail/1" className="w-full max-w-xs mx-auto space-y-4">
+            <div className="overflow-hidden bg-[#FCFBF4] rounded-2xl bg-">
+                <img src="/images/baju.png" className="aspect-[3/3.5]" alt="" />
             </div>
             <div>
                 <h1 className="text-xl font-bold sm:text-2xl">
@@ -28,11 +27,11 @@ export function CartCard({ item }: { item?: Cart }) {
         <div className="grid grid-cols-3 gap-5 my-5 md:grid-cols-4">
             <Link
                 href="/"
-                className="flex items-center justify-center col-span-1 rounded-md bg-neutral-100"
+                className="flex items-center justify-center col-span-1 rounded-md bg-[#FCFBF4]"
             >
                 <img
                     src="/images/baju.png"
-                    className="w-full max-w-32"
+                    className="w-full max-w-32 aspect-[3/3.5]"
                     alt=""
                 />
             </Link>
@@ -47,7 +46,7 @@ export function CartCard({ item }: { item?: Cart }) {
                     <div className="text-sm text-gray-400 md:text-base">
                         <h4>Product: Tshirt</h4>
                         <h4>Size: XL</h4>
-                        <h4>Color: Brown</h4>
+                        <h4>Color: Crown</h4>
                     </div>
                     <div>
                         <Button size={"icon"} variant={"ghost"}>

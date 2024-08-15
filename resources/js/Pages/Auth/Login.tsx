@@ -52,7 +52,7 @@ export default function Login() {
             error: (err) => {
                 console.log(err);
                 setIsSubmitted(false);
-                return "Something went wrong";
+                return `${err.response.data.message}`;
             },
         });
     });

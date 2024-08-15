@@ -222,10 +222,10 @@ export function DashboardHeader() {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
                     <DropdownMenuItem asChild className="cursor-pointer">
                         <Link href="/">User View</Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild className="cursor-pointer">
                         <Link href={route("logout")} method="post">

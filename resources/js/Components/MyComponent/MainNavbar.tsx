@@ -21,10 +21,9 @@ import {
 
 export default function MainNavbar({ user }: { user: User }) {
     return (
-        <header className="sticky top-0 flex items-center justify-between w-full h-16 gap-4 px-4 border-b bg-background md:px-6">
+        <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 gap-4 px-4 border-b bg-background md:px-6">
             <nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <NavLink name="New Arival" link="" />
-                <NavLink name="All product" link="products" />
                 <NavLink name="Men" link="men" />
                 <NavLink name="Women" link="women" />
                 <NavLink name="Kids" link="kids" />
@@ -45,6 +44,7 @@ export default function MainNavbar({ user }: { user: User }) {
                         />
                     </Link>
                 </Button>
+                <NavbarSheet />
                 {user ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -64,7 +64,6 @@ export default function MainNavbar({ user }: { user: User }) {
                                 {user.first_name}
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Settings</DropdownMenuItem>
                             {user.role === "admin" && (
                                 <DropdownMenuItem
                                     asChild
@@ -75,6 +74,7 @@ export default function MainNavbar({ user }: { user: User }) {
                                     </Link>
                                 </DropdownMenuItem>
                             )}
+                            <DropdownMenuItem>Settings</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 asChild
@@ -96,7 +96,6 @@ export default function MainNavbar({ user }: { user: User }) {
                         </Link>
                     </Button>
                 )}
-                <NavbarSheet />
             </div>
         </header>
     );
@@ -138,7 +137,7 @@ function NavbarSheet() {
         <Sheet>
             <SheetTrigger asChild>
                 <Button
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
                     className="shrink-0 md:hidden"
                 >
@@ -155,7 +154,6 @@ function NavbarSheet() {
                         <span>MyBrand</span>
                     </Link>
                     <NavLink name="New Arival" link="" />
-                    <NavLink name="All product" link="products" />
                     <NavLink name="Men" link="men" />
                     <NavLink name="Women" link="women" />
                     <NavLink name="Kids" link="kids" />

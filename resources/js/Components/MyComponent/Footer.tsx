@@ -7,7 +7,7 @@ export default function Footer() {
         <>
             <div className="container grid gap-10 py-10 md:grid-cols-2">
                 <div className="max-w-lg">
-                    <h1 className="text-5xl font-bold">MyBrand</h1>
+                    <h1 className="text-2xl font-bold md:text-5xl">MyBrand</h1>
                     <p className="mt-5 mb-3 text-muted-foreground">
                         Get newsletter update for upcoming product and best
                         discount for all item
@@ -18,12 +18,15 @@ export default function Footer() {
                             type="email"
                             placeholder="Your Email"
                         />
-                        <Button className="px-12 py-6 rounded-full" size="lg">
+                        <Button
+                            className="px-6 py-6 rounded-full lg:px-12"
+                            size="lg"
+                        >
                             Submit
                         </Button>
                     </form>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex lg:justify-end">
                     <div className="grid max-w-lg grid-cols-3 gap-4">
                         <div id="product">
                             <h1 className="mb-3 text-lg font-bold">Product</h1>
