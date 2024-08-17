@@ -8,11 +8,11 @@ export interface User {
     email_verified_at: string;
 }
 
-export interface Cloth {
+export interface Product {
     id: string;
     name: string;
     description: string;
-    size: string;
+    stocks: number;
     category: string;
     product: string;
     isFeatured: boolean;
@@ -20,6 +20,7 @@ export interface Cloth {
     color: string;
     price: number;
     image: string;
+    created_at: string;
 }
 
 export interface Order {
@@ -32,7 +33,7 @@ export interface Order {
 }
 
 export interface Cart {
-    product: Cloth;
+    product: Product;
     amount: number;
     total_price: number;
 }

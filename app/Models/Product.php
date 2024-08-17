@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Cloth extends Model
+class Product extends Model
 {
     use HasFactory;
 
@@ -25,11 +25,6 @@ class Cloth extends Model
     public $incrementing = false;
 
     protected $guarded = ["id"];
-
-    public function cart()
-    {
-        return $this->hasMany(Cart::class);
-    }
 
     public function order()
     {

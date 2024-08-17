@@ -74,7 +74,9 @@ export default function MainNavbar({ user }: { user: User }) {
                                     </Link>
                                 </DropdownMenuItem>
                             )}
-                            <DropdownMenuItem>Settings</DropdownMenuItem>
+                            {user.role === "customer" && (
+                                <DropdownMenuItem>Settings</DropdownMenuItem>
+                            )}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 asChild

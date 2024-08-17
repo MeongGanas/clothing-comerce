@@ -7,7 +7,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/Components/ui/card";
-import { Checkbox } from "@/Components/ui/checkbox";
 import {
     Form,
     FormControl,
@@ -41,13 +40,13 @@ import { z } from "zod";
 const productSchema = z.object({
     name: z.string(),
     description: z.string(),
-    size: z.string(),
     category: z.string(),
     product: z.string(),
     isFeatured: z.boolean(),
     isArchived: z.boolean(),
     color: z.string(),
     price: z.string(),
+    stocks: z.string(),
     image: z
         .instanceof(FileList)
         .refine((file) => file?.length == 1, "File is required."),
@@ -64,13 +63,13 @@ export default function AddProduct({ auth }: PageProps) {
         defaultValues: {
             name: "",
             description: "",
-            size: "",
             category: "",
             product: "",
             isFeatured: false,
             isArchived: false,
             color: "",
             price: "",
+            stocks: "",
         },
     });
 
@@ -84,7 +83,7 @@ export default function AddProduct({ auth }: PageProps) {
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("description", values.description);
-        formData.append("size", values.size);
+        formData.append("stocks", values.stocks);
         formData.append("category", values.category);
         formData.append("product", values.product);
         formData.append("isFeatured", values.isFeatured.toString());
@@ -101,13 +100,13 @@ export default function AddProduct({ auth }: PageProps) {
             success: (res) => {
                 console.log(res);
                 setIsSubmitted(false);
-                // window.location.replace("/dashboard/products");
+                window.location.replace("/dashboard/products");
                 return "Add Product Success!";
             },
             error: (err) => {
                 console.log(err);
                 setIsSubmitted(false);
-                return "Something went wrong";
+                return err?.response?.data?.message || "Something went wrong";
             },
         });
 
@@ -179,51 +178,6 @@ export default function AddProduct({ auth }: PageProps) {
                                 />
                                 <FormField
                                     control={control}
-                                    name="size"
-                                    render={({ field }) => (
-                                        <FormItem className="grid gap-2">
-                                            <FormLabel>Size</FormLabel>
-                                            <Select
-                                                onValueChange={field.onChange}
-                                                defaultValue={field.value}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select a size" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        <SelectLabel>
-                                                            Size
-                                                        </SelectLabel>
-                                                        <SelectItem value="xs">
-                                                            XS
-                                                        </SelectItem>
-                                                        <SelectItem value="s">
-                                                            S
-                                                        </SelectItem>
-                                                        <SelectItem value="m">
-                                                            M
-                                                        </SelectItem>
-                                                        <SelectItem value="l">
-                                                            L
-                                                        </SelectItem>
-                                                        <SelectItem value="xl">
-                                                            XL
-                                                        </SelectItem>
-                                                        <SelectItem value="xxl">
-                                                            XXL
-                                                        </SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={control}
                                     name="category"
                                     render={({ field }) => (
                                         <FormItem className="grid gap-2">
@@ -242,8 +196,8 @@ export default function AddProduct({ auth }: PageProps) {
                                                         <SelectLabel>
                                                             Category
                                                         </SelectLabel>
-                                                        <SelectItem value="men">
-                                                            Men
+                                                        <SelectItem value="man">
+                                                            Man
                                                         </SelectItem>
                                                         <SelectItem value="women">
                                                             Women
@@ -322,6 +276,23 @@ export default function AddProduct({ auth }: PageProps) {
                                     render={({ field }) => (
                                         <FormItem className="grid gap-2">
                                             <FormLabel>Price</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="number"
+                                                    required
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={control}
+                                    name="stocks"
+                                    render={({ field }) => (
+                                        <FormItem className="grid gap-2">
+                                            <FormLabel>Stocks</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     type="number"

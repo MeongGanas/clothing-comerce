@@ -1,4 +1,4 @@
-import { ClothCard } from "@/Components/MyComponent/Card";
+import { ProductCard } from "@/Components/MyComponent/Card";
 import MainLayout from "@/Layouts/MainLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
@@ -29,10 +29,10 @@ export default function Home({ auth }: PageProps) {
                     </div>
                 </div>
                 <div className="grid grid-cols-1 gap-5 mb-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <ClothCard />
-                    <ClothCard />
-                    <ClothCard />
-                    <ClothCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
                 </div>
                 <Pagination>
                     <PaginationContent>

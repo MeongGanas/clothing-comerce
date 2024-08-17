@@ -1,9 +1,9 @@
-import { Cart, Cloth } from "@/types";
+import { Cart, Product } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Button } from "../ui/button";
 import { Heart, MinusCircle, PlusCircle, Trash } from "lucide-react";
 
-export function ClothCard({ cloth }: { cloth?: Cloth }) {
+export function ProductCard({ product }: { product?: Product }) {
     return (
         <Link href="/detail/1" className="w-full max-w-xs mx-auto space-y-4">
             <div className="overflow-hidden bg-[#FCFBF4] rounded-2xl bg-">

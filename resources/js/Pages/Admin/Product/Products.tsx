@@ -28,10 +28,16 @@ import {
 } from "@/Components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { PageProps } from "@/types";
+import { Product, User } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
-export default function Products({ auth }: PageProps) {
+export default function Products({
+    auth,
+    products,
+}: {
+    auth: { user: User };
+    products: Product[];
+}) {
     return (
         <DashboardLayout user={auth.user}>
             <Head title="Products" />
@@ -115,7 +121,7 @@ export default function Products({ auth }: PageProps) {
                                             </span>
                                         </TableHead>
                                         <TableHead>Name</TableHead>
-                                        <TableHead>Status</TableHead>
+                                        <TableHead>Stocks</TableHead>
                                         <TableHead className="hidden md:table-cell">
                                             Price
                                         </TableHead>
@@ -133,61 +139,64 @@ export default function Products({ auth }: PageProps) {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    <TableRow>
-                                        <TableCell className="hidden sm:table-cell">
-                                            <img
-                                                alt="Product image"
-                                                className="object-cover rounded-md aspect-square"
-                                                height="64"
-                                                src="/images/baju.jpg"
-                                                width="64"
-                                            />
-                                        </TableCell>
-                                        <TableCell className="font-medium">
-                                            Laser Lemonade Machine
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline">
-                                                Draft
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            $499.99
-                                        </TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            25
-                                        </TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            2023-07-12 10:42 AM
-                                        </TableCell>
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        aria-haspopup="true"
-                                                        size="icon"
-                                                        variant="ghost"
-                                                    >
-                                                        <MoreHorizontal className="w-4 h-4" />
-                                                        <span className="sr-only">
-                                                            Toggle menu
-                                                        </span>
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>
-                                                        Actions
-                                                    </DropdownMenuLabel>
-                                                    <DropdownMenuItem>
-                                                        Edit
-                                                    </DropdownMenuItem>
-                                                    <DropdownMenuItem>
-                                                        Delete
-                                                    </DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </TableCell>
-                                    </TableRow>
+                                    {products &&
+                                        products.map((product) => (
+                                            <TableRow key={product.id}>
+                                                <TableCell className="hidden sm:table-cell">
+                                                    <img
+                                                        alt={product.name}
+                                                        className="object-cover rounded-md aspect-square"
+                                                        height="64"
+                                                        src={`/storage/${product.image}`}
+                                                        width="64"
+                                                    />
+                                                </TableCell>
+                                                <TableCell className="font-medium">
+                                                    {product.name}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {product.stocks}
+                                                </TableCell>
+                                                <TableCell className="hidden md:table-cell">
+                                                    Rp. {product.price}
+                                                </TableCell>
+                                                <TableCell className="hidden md:table-cell">
+                                                    25
+                                                </TableCell>
+                                                <TableCell className="hidden md:table-cell">
+                                                    {product.created_at}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger
+                                                            asChild
+                                                        >
+                                                            <Button
+                                                                aria-haspopup="true"
+                                                                size="icon"
+                                                                variant="ghost"
+                                                            >
+                                                                <MoreHorizontal className="w-4 h-4" />
+                                                                <span className="sr-only">
+                                                                    Toggle menu
+                                                                </span>
+                                                            </Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent align="end">
+                                                            <DropdownMenuLabel>
+                                                                Actions
+                                                            </DropdownMenuLabel>
+                                                            <DropdownMenuItem>
+                                                                Edit
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem>
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
                                 </TableBody>
                             </Table>
                         </CardContent>

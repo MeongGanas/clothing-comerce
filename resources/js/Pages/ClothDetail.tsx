@@ -1,6 +1,5 @@
-import { ClothCard } from "@/Components/MyComponent/Card";
+import { ProductCard } from "@/Components/MyComponent/Card";
 import { Button } from "@/Components/ui/button";
-import { Separator } from "@/Components/ui/separator";
 import MainLayout from "@/Layouts/MainLayout";
 import { PageProps } from "@/types";
 import { Head } from "@inertiajs/react";
@@ -143,10 +142,10 @@ export default function ClothDetail({ auth }: PageProps) {
                     You may also like
                 </h1>
                 <div className="grid grid-cols-1 gap-5 mb-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <ClothCard />
-                    <ClothCard />
-                    <ClothCard />
-                    <ClothCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
                 </div>
             </div>
         </MainLayout>

@@ -22,7 +22,9 @@ const registerSchema = z
             .string()
             .min(2, "first name minimum contains 2 character"),
         last_name: z.string(),
-        phone: z.string().min(12, "phone number minimum contains 2 character"),
+        phone_number: z
+            .string()
+            .min(12, "phone_number number minimum contains 2 character"),
         email: z.string().email("Email must be a valid email."),
         password: z.string().min(4, "Password minimum contains 4 character"),
         password_confirmation: z
@@ -44,7 +46,7 @@ export default function Register() {
         defaultValues: {
             first_name: "",
             last_name: "",
-            phone: "+62",
+            phone_number: "+62",
             email: "",
             password: "",
             password_confirmation: "",
@@ -68,7 +70,7 @@ export default function Register() {
             error: (err) => {
                 console.log(err);
                 setIsSubmitted(false);
-                return "Something went wrong";
+                return err?.response?.data?.message || "Something went wrong";
             },
         });
     });
@@ -106,7 +108,7 @@ export default function Register() {
                                     name="last_name"
                                     render={({ field }) => (
                                         <FormItem className="grid gap-2">
-                                            <FormLabel>First Name</FormLabel>
+                                            <FormLabel>Last Name</FormLabel>
                                             <FormControl>
                                                 <Input {...field} />
                                             </FormControl>
@@ -136,13 +138,13 @@ export default function Register() {
                             />
                             <FormField
                                 control={control}
-                                name="phone"
+                                name="phone_number"
                                 render={({ field }) => (
                                     <FormItem className="grid gap-2">
-                                        <FormLabel>Phone</FormLabel>
+                                        <FormLabel>Phone number</FormLabel>
                                         <FormControl>
                                             <Input
-                                                id="phone"
+                                                id="phone number"
                                                 type="tel"
                                                 pattern="\+62[0-9]{9,13}"
                                                 required

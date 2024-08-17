@@ -11,29 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cloths', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->string("name");
-            $table->string("description");
+            $table->text("description");
             $table->enum("category", ["man", "women", "kids"]);
             $table->enum("product", ["tshirt", "jacket", "shoes", "pants", "sunglasses", "tuxedo"]);
-            $table->enum("size", ["xs", "s", "m", 'l', 'xl', 'xxl']);
-            $table->boolean("isFutured");
+            $table->boolean("isFeatured");
             $table->boolean("isArchived");
             $table->string("color");
             $table->integer("price");
+            $table->integer("stocks");
             $table->string("image");
             $table->timestamps();
         });
 
-        Schema::create('cloth_colors', function (Blueprint $table) {
+        Schema::create('product_colors', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->foreignUuid('product_id');
             $table->string('color');
             $table->timestamps();
         });
 
-        Schema::create('cloth_images', function (Blueprint $table) {
+        Schema::create('product_images', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->foreignUuid('product_id');
             $table->string('image');

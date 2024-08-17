@@ -26,9 +26,9 @@ class Order extends Model
 
     protected $guarded = ["id"];
 
-    public function cloth()
+    public function product()
     {
-        return $this->belongsTo(Cloth::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function user()

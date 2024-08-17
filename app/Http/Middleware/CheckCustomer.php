@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckUser
+class CheckCustomer
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class CheckUser
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        if ($user && $user->role === "user") {
+        if ($user && $user->role === "customer") {
             return $next($request);
         }
         return redirect(route("dashboard", absolute: false));
