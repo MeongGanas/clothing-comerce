@@ -1,16 +1,13 @@
 <?php
 
+use App\Http\Controllers\ProductView;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-})->name("home");
+Route::get('/', [ProductView::class, 'index'])->name("home");
 
-Route::get("/detail/{id}", function () {
-    return Inertia::render("ClothDetail");
-});
+Route::get("/detail/{product}", [ProductView::class, 'show']);
 
 Route::middleware(['auth', 'checkIsCustomer'])->group(function () {
     Route::get("/cart", function () {
@@ -23,7 +20,7 @@ Route::middleware(['auth', 'checkIsAdmin'])->group(function () {
         return Inertia::render('Admin/Dashboard');
     })->name("dashboard");
 
-    Route::resource("/dashboard/products", ProductController::class);
+    Route::resource("/dashboard/products", ProductController::class)->except("show");
 
     Route::get('/dashboard/orders', function () {
         return Inertia::render('Admin/Orders');

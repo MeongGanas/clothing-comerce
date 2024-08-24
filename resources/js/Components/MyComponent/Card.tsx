@@ -1,22 +1,52 @@
-import { Cart, Product } from "@/types";
+import { Cart, Product, ProductsProps } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Button } from "../ui/button";
 import { Heart, MinusCircle, PlusCircle, Trash } from "lucide-react";
 
-export function ProductCard({ product }: { product?: Product }) {
+export function AllProductCards({ products }: { products: ProductsProps }) {
     return (
-        <Link href="/detail/1" className="w-full max-w-xs mx-auto space-y-4">
-            <div className="overflow-hidden bg-[#FCFBF4] rounded-2xl bg-">
-                <img src="/images/baju.png" className="aspect-[3/3.5]" alt="" />
-            </div>
-            <div>
-                <h1 className="text-xl font-bold sm:text-2xl">
-                    Badacore Tshirt
+        <>
+            {products.data.length > 0 ? (
+                <div className="grid grid-cols-2 mb-10 gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+                    {products.data.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </div>
+            ) : (
+                <h1 className="mb-10 text-center">
+                    There are no product available.
                 </h1>
-                <p className="mt-1 mb-2 text-xs sm:text-sm text-muted-foreground">
-                    Classic t-shirt for daily use
-                </p>
-                <h1 className="text-xl font-bold sm:text-2xl">$90</h1>
+            )}
+        </>
+    );
+}
+
+export function ProductCard({ product }: { product: Product }) {
+    return (
+        <Link
+            href={`/detail/${product.id}`}
+            className="w-full max-w-xs mx-auto space-y-4"
+        >
+            <div className="overflow-hidden bg-[#FCFBF4] rounded-2xl">
+                <img
+                    src={`/storage/${product.image}`}
+                    className="aspect-square"
+                    alt=""
+                />
+            </div>
+            <div className="flex flex-col justify-between">
+                <h1 className="font-bold md:text-lg lg:text-xl sm:min-h-16">
+                    {product.name}
+                </h1>
+                <div className="mt-1 space-y-2">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                        {product.caption} |{" "}
+                        <span className="capitalize">{product.category}</span>
+                    </p>
+                    <h1 className="text-xl font-bold sm:text-2xl">
+                        Rp. {product.price}
+                    </h1>
+                </div>
             </div>
         </Link>
     );

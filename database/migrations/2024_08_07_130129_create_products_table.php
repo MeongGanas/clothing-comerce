@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string("name");
             $table->text("description");
             $table->enum("category", ["man", "women", "kids"]);
-            $table->enum("product", ["tshirt", "jacket", "shoes", "pants", "sunglasses", "tuxedo"]);
+            $table->enum("product", ["tshirt", "jacket", "pants", "tuxedo"]);
+            $table->json("available_size");
+            $table->string("caption");
             $table->boolean("isFeatured");
             $table->boolean("isArchived");
             $table->string("color");

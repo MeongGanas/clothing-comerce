@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Http\Requests\StoreproductRequest;
 use App\Http\Requests\UpdateproductRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -39,6 +40,8 @@ class ProductController extends Controller
             "category" => "required|string",
             "product" => "required|string",
             "color" => "required|string|min:2",
+            "caption" => "required|string|min:2|max:255",
+            "available_size" => "required|string",
             "price" => "required|string",
             "stocks" => "required|string",
             "isFeatured" => "required|string",
@@ -52,6 +55,8 @@ class ProductController extends Controller
             "category" => $request->category,
             "product" => $request->product,
             "color" => $request->color,
+            "caption" => $request->caption,
+            "available_size" => $request->available_size,
             "price" => intval($request->price),
             "stocks" => intval($request->stocks),
             "isFeatured" => $request->isFeatured === "true" ? true : false,
@@ -60,14 +65,6 @@ class ProductController extends Controller
         ]);
 
         return redirect()->intended(route('products.index', absolute: false));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        //
     }
 
     /**
@@ -91,6 +88,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        Storage::delete($product->image);
+
+        Product::destroy($product->id);
+
+        return redirect("/dashboard/products");
     }
 }

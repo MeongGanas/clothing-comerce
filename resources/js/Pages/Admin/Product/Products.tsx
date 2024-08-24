@@ -189,8 +189,16 @@ export default function Products({
                                                             <DropdownMenuItem>
                                                                 Edit
                                                             </DropdownMenuItem>
-                                                            <DropdownMenuItem>
-                                                                Delete
+                                                            <DropdownMenuItem
+                                                                asChild
+                                                                className="cursor-pointer"
+                                                            >
+                                                                <Link
+                                                                    href={`/dashboard/products/${product.id}`}
+                                                                    method="delete"
+                                                                >
+                                                                    Delete
+                                                                </Link>
                                                             </DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>

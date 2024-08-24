@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 export default function Footer() {
     return (
         <>
-            <div className="container grid gap-10 py-10 md:grid-cols-2">
+            <div className="container grid gap-10 px-4 py-10 md:grid-cols-2 sm:px-10">
                 <div className="max-w-lg">
                     <h1 className="text-2xl font-bold md:text-5xl">MyBrand</h1>
                     <p className="mt-5 mb-3 text-muted-foreground">
@@ -122,7 +122,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="container block py-5 text-white bg-black md:justify-between md:flex">
+            <div className="container block px-4 py-5 text-white bg-black sm:px-10 md:justify-between md:flex">
                 <h1 className="mb-3 md:mb-0">@2023 MyBrand Production</h1>
                 <div className="flex gap-5">
                     <Link

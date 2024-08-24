@@ -23,10 +23,18 @@ export default function MainNavbar({ user }: { user: User }) {
     return (
         <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 gap-4 px-4 border-b bg-background md:px-6">
             <nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-                <NavLink name="New Arival" link="" />
-                <NavLink name="Men" link="men" />
-                <NavLink name="Women" link="women" />
-                <NavLink name="Kids" link="kids" />
+                <NavLink name="New Arival" activeParams="" link="" />
+                <NavLink name="Man" activeParams="man" link="?category=man" />
+                <NavLink
+                    name="Women"
+                    activeParams="women"
+                    link="?category=women"
+                />
+                <NavLink
+                    name="Kids"
+                    activeParams="kids"
+                    link="?category=kids"
+                />
             </nav>
             <Link
                 href="/"
@@ -34,7 +42,7 @@ export default function MainNavbar({ user }: { user: User }) {
             >
                 <span>MyBrand</span>
             </Link>
-            <div className="flex items-center justify-end lg:w-[307px]">
+            <div className="flex items-center justify-end md:w-[243px]">
                 <SearchDialog />
                 <Button asChild size={"icon"} variant={"ghost"}>
                     <Link href="/cart">
@@ -155,22 +163,45 @@ function NavbarSheet() {
                     >
                         <span>MyBrand</span>
                     </Link>
-                    <NavLink name="New Arival" link="" />
-                    <NavLink name="Men" link="men" />
-                    <NavLink name="Women" link="women" />
-                    <NavLink name="Kids" link="kids" />
+                    <NavLink name="New Arival" activeParams="" link="" />
+                    <NavLink
+                        name="Man"
+                        activeParams="man"
+                        link="?category=man"
+                    />
+                    <NavLink
+                        name="Women"
+                        activeParams="women"
+                        link="?category=women"
+                    />
+                    <NavLink
+                        name="Kids"
+                        activeParams="kids"
+                        link="?category=kids"
+                    />
                 </nav>
             </SheetContent>
         </Sheet>
     );
 }
 
-function NavLink({ link, name }: { link: string | ""; name: string }) {
+function NavLink({
+    link,
+    name,
+    activeParams,
+}: {
+    link: string | "";
+    name: string;
+    activeParams: string;
+}) {
+    const params = route().params.category;
+
     return (
         <Link
             href={`/${link}`}
             className={`transition-colors ${
-                route().current()?.includes(link)
+                params === activeParams ||
+                (params === undefined && activeParams === "")
                     ? "text-foreground hover:text-foreground"
                     : "text-muted-foreground hover:text-foreground"
             }`}
