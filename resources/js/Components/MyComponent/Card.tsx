@@ -2,6 +2,7 @@ import { Cart, Product, ProductsProps } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Button } from "../ui/button";
 import { Heart, MinusCircle, PlusCircle, Trash } from "lucide-react";
+import formatPrice from "@/lib/formatPrice";
 
 export function AllProductCards({ products }: { products: ProductsProps }) {
     return (
@@ -28,11 +29,7 @@ export function ProductCard({ product }: { product: Product }) {
             className="w-full max-w-xs mx-auto space-y-4"
         >
             <div className="overflow-hidden bg-[#FCFBF4] rounded-2xl">
-                <img
-                    src={`/storage/${product.image}`}
-                    className="aspect-square"
-                    alt=""
-                />
+                <img src={product.image} className="aspect-square" alt="" />
             </div>
             <div className="flex flex-col justify-between">
                 <h1 className="font-bold md:text-lg lg:text-xl sm:min-h-16">
@@ -44,7 +41,7 @@ export function ProductCard({ product }: { product: Product }) {
                         <span className="capitalize">{product.category}</span>
                     </p>
                     <h1 className="text-xl font-bold sm:text-2xl">
-                        Rp. {product.price}
+                        {formatPrice(product.price)}
                     </h1>
                 </div>
             </div>

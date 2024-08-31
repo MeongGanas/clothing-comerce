@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Http\Requests\StoreproductRequest;
-use App\Http\Requests\UpdateproductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -17,7 +15,7 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Product/Products', [
-            "products" => Product::latest()->get()
+            "allProducts" => Product::latest()->get(),
         ]);
     }
 
@@ -34,7 +32,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             "name" => "required|string|min:2|max:255",
             "description" => "required|string",
             "category" => "required|string",
@@ -49,20 +47,13 @@ class ProductController extends Controller
             "image" => "required"
         ]);
 
-        Product::create([
-            "name" => $request->name,
-            "description" => $request->description,
-            "category" => $request->category,
-            "product" => $request->product,
-            "color" => $request->color,
-            "caption" => $request->caption,
-            "available_size" => $request->available_size,
-            "price" => intval($request->price),
-            "stocks" => intval($request->stocks),
-            "isFeatured" => $request->isFeatured === "true" ? true : false,
-            "isArchived" => $request->isArchived === "true" ? true : false,
-            "image" => $request->file("image")->store("product-image", 'public')
-        ]);
+        $validatedData["price"] = intval($request->price);
+        $validatedData["stocks"] = intval($request->stocks);
+        $validatedData["isFeatured"] = $request->isFeatured === "true" ? true : false;
+        $validatedData["isArchived"] = $request->isArchived === "true" ? true : false;
+        $validatedData["image"] = "/storage/" . $request->file("image")->store("product-image", "public");
+
+        Product::create($validatedData);
 
         return redirect()->intended(route('products.index', absolute: false));
     }
@@ -72,7 +63,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return Inertia::render("Admin/Product/EditProduct", [
+            "product" => $product
+        ]);
     }
 
     /**
@@ -80,7 +73,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validatedData = $request->validate([
+            "name" => "required|string|min:2|max:255",
+            "description" => "required|string",
+            "category" => "required|string",
+            "product" => "required|string",
+            "color" => "required|string|min:2",
+            "caption" => "required|string|min:2|max:255",
+            "available_size" => "required|string",
+            "price" => "required|string",
+            "stocks" => "required|string",
+            "isFeatured" => "required|string",
+            "isArchived" => "required|string",
+        ]);
+
+        $validatedData["price"] = intval($request->price);
+        $validatedData["stocks"] = intval($request->stocks);
+        $validatedData["isFeatured"] = $request->isFeatured === "true" ? true : false;
+        $validatedData["isArchived"] = $request->isArchived === "true" ? true : false;
+
+        if ($request->has("image")) {
+            Storage::delete($product->image);
+            $validatedData["image"] = "/storage/" . $request->file("image")->store("product-image", "public");
+        }
+
+        Product::where('id', $product->id)->update($validatedData);
+
+        return redirect()->intended(route('products.index', absolute: false));
     }
 
     /**

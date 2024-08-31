@@ -15,8 +15,8 @@ export interface Product {
     stocks: number;
     category: string;
     product: string;
-    isFeatured: boolean;
-    isArchived: boolean;
+    isFeatured: number;
+    isArchived: number;
     color: string;
     price: number;
     image: string;

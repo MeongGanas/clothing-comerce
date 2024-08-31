@@ -24,7 +24,7 @@ export default function MainNavbar({ user }: { user: User }) {
         <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 gap-4 px-4 border-b bg-background md:px-6">
             <nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                 <NavLink name="New Arival" activeParams="" link="" />
-                <NavLink name="Man" activeParams="man" link="?category=man" />
+                <NavLink name="Men" activeParams="men" link="?category=men" />
                 <NavLink
                     name="Women"
                     activeParams="women"
@@ -165,9 +165,9 @@ function NavbarSheet() {
                     </Link>
                     <NavLink name="New Arival" activeParams="" link="" />
                     <NavLink
-                        name="Man"
-                        activeParams="man"
-                        link="?category=man"
+                        name="Men"
+                        activeParams="men"
+                        link="?category=men"
                     />
                     <NavLink
                         name="Women"

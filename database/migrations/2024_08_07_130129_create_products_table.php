@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->string("name");
             $table->text("description");
-            $table->enum("category", ["man", "women", "kids"]);
+            $table->enum("category", ["men", "women", "kids"]);
             $table->enum("product", ["tshirt", "jacket", "pants", "tuxedo"]);
             $table->json("available_size");
             $table->string("caption");
@@ -25,20 +25,6 @@ return new class extends Migration
             $table->integer("price");
             $table->integer("stocks");
             $table->string("image");
-            $table->timestamps();
-        });
-
-        Schema::create('product_colors', function (Blueprint $table) {
-            $table->uuid("id")->primary();
-            $table->foreignUuid('product_id');
-            $table->string('color');
-            $table->timestamps();
-        });
-
-        Schema::create('product_images', function (Blueprint $table) {
-            $table->uuid("id")->primary();
-            $table->foreignUuid('product_id');
-            $table->string('image');
             $table->timestamps();
         });
     }

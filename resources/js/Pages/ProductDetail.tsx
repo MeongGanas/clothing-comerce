@@ -1,6 +1,7 @@
 import { ProductCard } from "@/Components/MyComponent/Card";
 import { Button } from "@/Components/ui/button";
 import MainLayout from "@/Layouts/MainLayout";
+import formatPrice from "@/lib/formatPrice";
 import { Product, User } from "@/types";
 import { Head } from "@inertiajs/react";
 
@@ -14,6 +15,7 @@ export default function ProductDetail({
     recommendation: Product[];
 }) {
     const sizes = JSON.parse(product.available_size);
+
     return (
         <MainLayout user={auth.user}>
             <Head title="Detail" />
@@ -66,7 +68,7 @@ export default function ProductDetail({
                             {product.caption}
                         </p>
                         <h1 className="text-xl font-bold md:text-2xl lg:text-3xl">
-                            Rp. {product.price}
+                            {formatPrice(product.price)}
                         </h1>
                         <h4>
                             Color :{" "}

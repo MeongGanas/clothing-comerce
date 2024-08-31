@@ -29,7 +29,7 @@ import {
 } from "@/Components/ui/select";
 import { Textarea } from "@/Components/ui/textarea";
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { PageProps } from "@/types";
+import { PageProps, Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Head, Link } from "@inertiajs/react";
 import axios from "axios";
@@ -81,31 +81,32 @@ const productSchema = z.object({
         .refine((value) => value.some((item) => item), {
             message: "You have to select at least one item.",
         }),
-    image: z
-        .instanceof(FileList)
-        .refine((file) => file?.length == 1, "File is required."),
+    image: z.instanceof(FileList).optional(),
 });
 
 type ProductSchema = z.infer<typeof productSchema>;
 
-export default function AddProduct({ auth }: PageProps) {
-    const [preview, setPreview] = useState<string | null>(null);
+export default function EditProduct({
+    auth,
+    product,
+}: PageProps<{ product: Product }>) {
+    const [preview, setPreview] = useState<string | null>(product.image);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const form = useForm<ProductSchema>({
         resolver: zodResolver(productSchema),
         defaultValues: {
-            name: "",
-            description: "",
-            category: "",
-            product: "",
-            isFeatured: false,
-            isArchived: false,
-            available_size: ["s", "m"],
-            caption: "",
-            color: "",
-            price: "",
-            stocks: "",
+            name: product.name,
+            description: product.description,
+            category: product.category,
+            product: product.product,
+            isFeatured: product.isFeatured === 1 ? true : false,
+            isArchived: product.isArchived === 1 ? true : false,
+            available_size: JSON.parse(product.available_size),
+            caption: product.caption,
+            color: product.color,
+            price: product.price.toString(),
+            stocks: product.stocks.toString(),
         },
     });
 
@@ -117,6 +118,7 @@ export default function AddProduct({ auth }: PageProps) {
         setIsSubmitted(true);
 
         const formData = new FormData();
+        formData.append("_method", "PATCH");
         formData.append("name", values.name);
         formData.append("description", values.description);
         formData.append("stocks", values.stocks);
@@ -131,9 +133,17 @@ export default function AddProduct({ auth }: PageProps) {
             "available_size",
             JSON.stringify(values.available_size)
         );
-        formData.append("image", values.image[0]);
 
-        const promise = axios.post("/dashboard/products", formData);
+        if (values.image && values.image?.length > 0) {
+            formData.append("image", values.image[0]);
+        }
+
+        console.log(formData.get("image"));
+
+        const promise = axios.post(
+            `/dashboard/products/${product.id}`,
+            formData
+        );
 
         toast.promise(promise, {
             loading: "Loading...",
@@ -141,7 +151,7 @@ export default function AddProduct({ auth }: PageProps) {
                 console.log(res);
                 setIsSubmitted(false);
                 window.location.replace("/dashboard/products");
-                return "Add Product Success!";
+                return "Edit Product Success!";
             },
             error: (err) => {
                 console.log(err);
@@ -191,7 +201,6 @@ export default function AddProduct({ auth }: PageProps) {
                                             <Input
                                                 type="file"
                                                 accept="image/*"
-                                                required
                                                 {...fileRef}
                                                 onChange={(e) =>
                                                     handlePreview(e)
@@ -527,7 +536,7 @@ export default function AddProduct({ auth }: PageProps) {
                                 <Link href="/dashboard/products">Cancel</Link>
                             </Button>
                             <Button type="submit" disabled={isSubmitted}>
-                                Add Now
+                                Edit Now
                             </Button>
                         </CardFooter>
                     </form>

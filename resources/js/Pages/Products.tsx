@@ -73,10 +73,18 @@ export default function Home({
 
 function FilterProducts() {
     const currentLink = window.location;
-    const backToAll = currentLink.href.split("&")[0];
+    const currentSearch = currentLink.search;
+
+    const backToAll = currentSearch.includes("category")
+        ? currentLink.href.split("&")[0]
+        : "/";
+
+    const nextParameter = currentSearch.includes("category")
+        ? `${currentSearch.split("&")[0]}&`
+        : "?";
 
     return (
-        <div className="flex justify-center gap-5">
+        <div className="grid grid-cols-3 gap-5 sm:grid-cols-5">
             <Button
                 variant={"outline"}
                 className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
@@ -89,28 +97,28 @@ function FilterProducts() {
                 className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
                 asChild
             >
-                <Link href={`${currentLink}&product=tshirt`}>Tshirt</Link>
+                <Link href={`${nextParameter}product=tshirt`}>Tshirt</Link>
             </Button>
             <Button
                 variant={"outline"}
                 className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
                 asChild
             >
-                <Link href={`${currentLink}&product=pants`}>Pants</Link>
+                <Link href={`${nextParameter}product=pants`}>Pants</Link>
             </Button>
             <Button
                 variant={"outline"}
                 className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
                 asChild
             >
-                <Link href={`${currentLink}&product=jacket`}>Jacket</Link>
+                <Link href={`${nextParameter}product=jacket`}>Jacket</Link>
             </Button>
             <Button
                 variant={"outline"}
                 className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
                 asChild
             >
-                <Link href={`${currentLink}&product=tuxedo`}>Tuxedo</Link>
+                <Link href={`${nextParameter}product=tuxedo`}>Tuxedo</Link>
             </Button>
         </div>
     );
