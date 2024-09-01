@@ -72,15 +72,14 @@ export default function Home({
 }
 
 function FilterProducts() {
-    const currentLink = window.location;
-    const currentSearch = currentLink.search;
+    const params = route().params;
 
-    const backToAll = currentSearch.includes("category")
-        ? currentLink.href.split("&")[0]
+    const backToAll = params.category
+        ? `${window.location.pathname}?category=${params.category}`
         : "/";
 
-    const nextParameter = currentSearch.includes("category")
-        ? `${currentSearch.split("&")[0]}&`
+    const nextParameter = params.category
+        ? `${window.location.pathname}?category=${params.category}&`
         : "?";
 
     return (

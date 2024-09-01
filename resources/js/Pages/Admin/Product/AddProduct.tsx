@@ -424,7 +424,7 @@ export default function AddProduct({ auth }: PageProps) {
                                             <FormLabel>
                                                 Available Size
                                             </FormLabel>
-                                            <div className="grid grid-cols-7">
+                                            <div className="grid grid-cols-6">
                                                 {sizes.map((size) => (
                                                     <FormField
                                                         key={size.id}
@@ -436,7 +436,7 @@ export default function AddProduct({ auth }: PageProps) {
                                                                     key={
                                                                         size.id
                                                                     }
-                                                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                                                    className="flex flex-row items-start space-x-1 space-y-0 md:space-x-2"
                                                                 >
                                                                     <FormControl>
                                                                         <Checkbox

@@ -1,3 +1,14 @@
+import { File, ListFilter, PlusCircle } from "lucide-react";
+import { Button } from "@/Components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/Components/ui/dropdown-menu";
 import {
     Table,
     TableBody,
@@ -15,24 +26,24 @@ import {
     CardTitle,
 } from "@/Components/ui/card";
 import { TabsContent } from "../ui/tabs";
-import { Product } from "@/types";
+import { ProductsProps } from "@/types";
 import formatPrice from "@/lib/formatPrice";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { Link } from "@inertiajs/react";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "../ui/pagination";
 
 export function ProductTabs({
     products,
     value,
 }: {
-    products: Product[];
+    products: ProductsProps;
     value: string;
 }) {
     return (
@@ -70,8 +81,8 @@ export function ProductTabs({
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {products &&
-                                products.map((product) => (
+                            {products.data &&
+                                products.data.map((product) => (
                                     <TableRow key={product.id}>
                                         <TableCell className="hidden sm:table-cell">
                                             <img
@@ -143,12 +154,105 @@ export function ProductTabs({
                     </Table>
                 </CardContent>
                 <CardFooter>
-                    <div className="text-xs text-muted-foreground">
-                        Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                        products
+                    <div className="w-full space-y-4">
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                        href={products.links[0].url || ""}
+                                    />
+                                </PaginationItem>
+                                {products &&
+                                    products.links
+                                        .slice(1, -1)
+                                        .map((link, i) => (
+                                            <PaginationItem key={i}>
+                                                <PaginationLink
+                                                    href={link.url || ""}
+                                                    isActive={link.active}
+                                                >
+                                                    {link.label}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        ))}
+                                <PaginationItem>
+                                    <PaginationNext
+                                        href={
+                                            products.links[
+                                                products.links.length - 1
+                                            ].url || ""
+                                        }
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                        <div className="text-xs text-muted-foreground">
+                            Showing <strong>1-10</strong> of{" "}
+                            <strong>{products.data.length}</strong> products
+                        </div>
                     </div>
                 </CardFooter>
             </Card>
         </TabsContent>
+    );
+}
+
+export function ProductFilter() {
+    const params = route().params;
+    const allRoute = params.type
+        ? `${window.location.pathname}?type=${params.type}`
+        : `${window.location.pathname}`;
+
+    const nextRoute = params.type
+        ? `${window.location.pathname}?type=${params.type}&`
+        : `${window.location.pathname}?`;
+
+    return (
+        <div className="flex items-center gap-2 ml-auto">
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="h-8 gap-1">
+                        <ListFilter className="h-3.5 w-3.5" />
+                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                            Filter
+                        </span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <Link href={allRoute}>
+                        <DropdownMenuCheckboxItem>All</DropdownMenuCheckboxItem>
+                    </Link>
+                    <Link href={`${nextRoute}category=men`}>
+                        <DropdownMenuCheckboxItem>Men</DropdownMenuCheckboxItem>
+                    </Link>
+                    <Link href={`${nextRoute}category=women`}>
+                        <DropdownMenuCheckboxItem>
+                            Women
+                        </DropdownMenuCheckboxItem>
+                    </Link>
+                    <Link href={`${nextRoute}category=kids`}>
+                        <DropdownMenuCheckboxItem>
+                            Kids
+                        </DropdownMenuCheckboxItem>
+                    </Link>
+                </DropdownMenuContent>
+            </DropdownMenu>
+            <Button size="sm" variant="outline" className="h-8 gap-1">
+                <File className="h-3.5 w-3.5" />
+                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                    Export
+                </span>
+            </Button>
+            <Button size="sm" asChild className="h-8 gap-1">
+                <Link href="/dashboard/products/create">
+                    <PlusCircle className="h-3.5 w-3.5" />
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                        Add Product
+                    </span>
+                </Link>
+            </Button>
+        </div>
     );
 }

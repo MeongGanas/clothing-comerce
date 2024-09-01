@@ -14,8 +14,22 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $query = Product::latest();
+
+        if (request('type') && request("type") === "featured") {
+            $query->where('isFeatured', 1);
+        }
+
+        if (request('type') && request("type") === "archived") {
+            $query->where('isArchived', 1);
+        }
+
+        if ($category = request("category")) {
+            $query->where('category', $category);
+        }
+
         return Inertia::render('Admin/Product/Products', [
-            "allProducts" => Product::latest()->get(),
+            "allProducts" => $query->paginate(10),
         ]);
     }
 
