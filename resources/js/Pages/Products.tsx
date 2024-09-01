@@ -11,6 +11,9 @@ import {
     PaginationPrevious,
 } from "@/Components/ui/pagination";
 import { Button } from "@/Components/ui/button";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { setCart } from "@/slicer/cartSlicer";
 
 export default function Home({
     auth,
@@ -19,7 +22,12 @@ export default function Home({
     auth: { user: User };
     products: ProductsProps;
 }) {
+    const dispatch = useAppDispatch();
     const category = route().params.category;
+
+    useEffect(() => {
+        dispatch(setCart(auth.user.cart));
+    }, [auth.user.cart, setCart, dispatch]);
 
     return (
         <MainLayout user={auth.user}>
@@ -83,38 +91,38 @@ function FilterProducts() {
         : "?";
 
     return (
-        <div className="grid grid-cols-3 gap-5 sm:grid-cols-5">
+        <div className="grid grid-cols-4 gap-5 sm:grid-cols-5">
             <Button
                 variant={"outline"}
-                className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
+                className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-16 sm:min-w-20"
                 asChild
             >
                 <Link href={`${backToAll}`}>All</Link>
             </Button>
             <Button
                 variant={"outline"}
-                className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
+                className="col-span-2 py-6 text-xs font-bold border-black rounded-full sm:col-span-1 sm:text-base min-w-16 sm:min-w-20"
                 asChild
             >
                 <Link href={`${nextParameter}product=tshirt`}>Tshirt</Link>
             </Button>
             <Button
                 variant={"outline"}
-                className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
+                className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-16 sm:min-w-20"
                 asChild
             >
                 <Link href={`${nextParameter}product=pants`}>Pants</Link>
             </Button>
             <Button
                 variant={"outline"}
-                className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
+                className="col-span-2 py-6 text-xs font-bold border-black rounded-full sm:col-span-1 sm:text-base min-w-16 sm:min-w-20"
                 asChild
             >
                 <Link href={`${nextParameter}product=jacket`}>Jacket</Link>
             </Button>
             <Button
                 variant={"outline"}
-                className="py-6 text-xs font-bold border-black rounded-full sm:text-base min-w-20"
+                className="col-span-2 py-6 text-xs font-bold border-black rounded-full sm:col-span-1 sm:text-base min-w-16 sm:min-w-20"
                 asChild
             >
                 <Link href={`${nextParameter}product=tuxedo`}>Tuxedo</Link>

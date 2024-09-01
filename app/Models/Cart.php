@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Product extends Model
+class Cart extends Model
 {
     use HasFactory;
 
@@ -19,6 +19,10 @@ class Product extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+
+        static::addGlobalScope('withProduct', function ($query) {
+            $query->with(['product']);
+        });
     }
 
     protected $keyType = 'string';
@@ -26,13 +30,13 @@ class Product extends Model
 
     protected $guarded = ["id"];
 
-    public function order()
+    public function product()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function cart()
+    public function user()
     {
-        return $this->hasMany(Cart::class);
+        return $this->belongsTo(User::class);
     }
 }

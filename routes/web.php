@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductView;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -10,9 +11,7 @@ Route::get('/', [ProductView::class, 'index'])->name("home");
 Route::get("/detail/{product}", [ProductView::class, 'show']);
 
 Route::middleware(['auth', 'checkIsCustomer'])->group(function () {
-    Route::get("/cart", function () {
-        return Inertia::render("Cart");
-    });
+    Route::resource("/cart", CartController::class);
 });
 
 Route::middleware(['auth', 'checkIsAdmin'])->group(function () {

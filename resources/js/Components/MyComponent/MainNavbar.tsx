@@ -18,8 +18,12 @@ import {
     DialogHeader,
     DialogTrigger,
 } from "../ui/dialog";
+import { Badge } from "../ui/badge";
+import { useAppSelector } from "@/hooks/useRedux";
 
 export default function MainNavbar({ user }: { user: User }) {
+    const cartItems = useAppSelector((state) => state.cart.value);
+
     return (
         <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 gap-4 px-4 border-b bg-background md:px-6">
             <nav className="flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -44,12 +48,22 @@ export default function MainNavbar({ user }: { user: User }) {
             </Link>
             <div className="flex items-center justify-end md:w-[243px]">
                 <SearchDialog />
-                <Button asChild size={"icon"} variant={"ghost"}>
+                <Button
+                    asChild
+                    size={"icon"}
+                    variant={"ghost"}
+                    className="relative mr-2"
+                >
                     <Link href="/cart">
                         <ShoppingCart
                             className="text-muted-foreground"
                             size={20}
                         />
+                        {cartItems.length > 0 && (
+                            <Badge className="absolute flex items-center justify-center w-5 h-5 ml-auto rounded-full -top-1 -right-2 shrink-0">
+                                {cartItems.length}
+                            </Badge>
+                        )}
                     </Link>
                 </Button>
                 <NavbarSheet />

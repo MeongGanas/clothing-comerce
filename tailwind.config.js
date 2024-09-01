@@ -77,6 +77,9 @@ export default {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
+            gridColumn: {
+                "span-1.5": "span 1.5 / span 1.5",
+            },
         },
     },
 

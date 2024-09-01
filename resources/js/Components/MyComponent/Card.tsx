@@ -49,31 +49,37 @@ export function ProductCard({ product }: { product: Product }) {
     );
 }
 
-export function CartCard({ item }: { item?: Cart }) {
+export function CartCard({ item }: { item: Cart }) {
     return (
         <div className="grid grid-cols-3 gap-5 my-5 md:grid-cols-4">
             <Link
-                href="/"
+                href={`/detail/${item.product.id}`}
                 className="flex items-center justify-center col-span-1 rounded-md bg-[#FCFBF4]"
             >
                 <img
-                    src="/images/baju.png"
-                    className="w-full max-w-32 aspect-[3/3.5]"
-                    alt=""
+                    src={item.product.image}
+                    className="w-full aspect-square"
+                    alt={item.product.id}
                 />
             </Link>
             <div className="flex justify-between col-span-2 md:col-span-3">
                 <div className="flex flex-col justify-between space-y-3">
                     <Link
-                        href="/"
+                        href={`/detail/${item.product.id}`}
                         className="mb-2 text-lg font-bold sm:text-xl md:text-2xl"
                     >
-                        Badacore Tshirt
+                        {item.product.name}
                     </Link>
                     <div className="text-sm text-gray-400 md:text-base">
-                        <h4>Product: Tshirt</h4>
-                        <h4>Size: XL</h4>
-                        <h4>Color: Crown</h4>
+                        <h4 className="capitalize">
+                            Product: {item.product.product}
+                        </h4>
+                        <h4 className="capitalize">
+                            Size: {item.selected_size}
+                        </h4>
+                        <h4 className="capitalize">
+                            Color: {item.product.color}
+                        </h4>
                     </div>
                     <div>
                         <Button size={"icon"} variant={"ghost"}>
@@ -86,9 +92,9 @@ export function CartCard({ item }: { item?: Cart }) {
                 </div>
                 <div className="flex flex-col justify-between">
                     <h1 className="text-lg font-bold text-end sm:text-xl md:text-2xl">
-                        $90,00
+                        {formatPrice(item.total_price)}
                     </h1>
-                    <div className="h-[40px] gap-5 flex items-center">
+                    <div className="h-[40px] gap-5 justify-end flex items-center">
                         <button type="button">
                             <MinusCircle />
                         </button>

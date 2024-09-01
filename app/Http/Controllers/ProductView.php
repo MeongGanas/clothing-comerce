@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductView extends Controller
@@ -32,7 +31,7 @@ class ProductView extends Controller
             "recommendation" => Product::where('id', '!=', $product->id)
                 ->where('category', '=', $product->category)
                 ->where('product', '=', $product->product)
-                ->take(4)
+                ->take(8)
                 ->get()
         ]);
     }

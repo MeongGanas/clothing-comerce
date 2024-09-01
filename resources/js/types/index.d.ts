@@ -1,11 +1,13 @@
 export interface User {
-    id: number;
+    id: string;
     first_name: string;
     last_name: string;
     phone: string;
     email: string;
     role: string;
     email_verified_at: string;
+    cart: Cart[];
+    order: Order[];
 }
 
 export interface Product {
@@ -28,15 +30,18 @@ export interface Product {
 export interface Order {
     id: string;
     user_id: string;
-    cloth_id: string;
+    product_id: string;
     size: string;
     amount: number;
     total_price: number;
 }
 
 export interface Cart {
+    id?: string;
     product: Product;
+    user_id: string;
     amount: number;
+    selected_size: string;
     total_price: number;
 }
 

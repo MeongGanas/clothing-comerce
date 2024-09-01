@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productSlicer from "./slicer/productSlicer";
+import cartSlicer from "./slicer/cartSlicer";
 
-export default configureStore({
+const store = configureStore({
     reducer: {
-        product: productSlicer,
+        cart: cartSlicer,
     },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export default store;

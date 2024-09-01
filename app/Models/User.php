@@ -21,6 +21,10 @@ class User extends Authenticatable
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+
+        static::addGlobalScope('withCartAndOrder', function ($query) {
+            $query->with(['cart', 'order']);
+        });
     }
 
     protected $keyType = 'string';

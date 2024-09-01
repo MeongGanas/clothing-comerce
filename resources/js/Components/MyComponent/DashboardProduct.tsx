@@ -222,18 +222,30 @@ export function ProductFilter() {
                     <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <Link href={allRoute}>
-                        <DropdownMenuCheckboxItem>All</DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                            checked={params.category === undefined}
+                        >
+                            All
+                        </DropdownMenuCheckboxItem>
                     </Link>
                     <Link href={`${nextRoute}category=men`}>
-                        <DropdownMenuCheckboxItem>Men</DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                            checked={params.category === "men"}
+                        >
+                            Men
+                        </DropdownMenuCheckboxItem>
                     </Link>
                     <Link href={`${nextRoute}category=women`}>
-                        <DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                            checked={params.category === "women"}
+                        >
                             Women
                         </DropdownMenuCheckboxItem>
                     </Link>
                     <Link href={`${nextRoute}category=kids`}>
-                        <DropdownMenuCheckboxItem>
+                        <DropdownMenuCheckboxItem
+                            checked={params.category === "kids"}
+                        >
                             Kids
                         </DropdownMenuCheckboxItem>
                     </Link>
