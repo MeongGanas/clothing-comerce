@@ -26,8 +26,10 @@ export default function Home({
     const category = route().params.category;
 
     useEffect(() => {
-        dispatch(setCart(auth.user.cart));
-    }, [auth.user.cart, setCart, dispatch]);
+        if (auth.user) {
+            dispatch(setCart(auth.user.cart));
+        }
+    }, [auth.user, setCart, dispatch]);
 
     return (
         <MainLayout user={auth.user}>

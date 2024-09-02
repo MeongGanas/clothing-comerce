@@ -14,7 +14,7 @@ export default function Cart({ auth }: PageProps) {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(setCart(auth.user.cart));
+        dispatch(setCart(auth.user.cart ?? []));
     }, [auth.user.cart, setCart, dispatch]);
 
     const subtotal = useMemo(() => {

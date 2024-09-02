@@ -81,7 +81,7 @@ export function CartCard({ item }: { item: Cart }) {
                             Color: {item.product.color}
                         </h4>
                     </div>
-                    <div>
+                    <div className="flex items-center">
                         <Button size={"icon"} variant={"ghost"}>
                             <Heart />
                         </Button>
@@ -98,7 +98,7 @@ export function CartCard({ item }: { item: Cart }) {
                         <button type="button">
                             <MinusCircle />
                         </button>
-                        <span className="font-bold">1</span>
+                        <span className="font-bold">{item.amount}</span>
                         <button type="button">
                             <PlusCircle />
                         </button>

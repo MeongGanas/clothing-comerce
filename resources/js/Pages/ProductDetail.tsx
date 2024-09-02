@@ -7,6 +7,7 @@ import { add, setCart } from "@/slicer/cartSlicer";
 import { Product, User } from "@/types";
 import { Head } from "@inertiajs/react";
 import axios from "axios";
+import { MinusCircle, PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -22,6 +23,7 @@ export default function ProductDetail({
     const sizes = JSON.parse(product.available_size);
 
     const [selectedSize, setSelectedSize] = useState(sizes[0]);
+    const [amount, setAmount] = useState(1);
 
     const dispatch = useAppDispatch();
 
@@ -35,13 +37,29 @@ export default function ProductDetail({
             product_id: product.id,
             product: { ...product },
             selected_size: selectedSize,
-            amount: 1,
-            total_price: product.price * 1,
+            amount: amount,
+            total_price: product.price * amount,
         };
         axios.post("/cart", item);
         dispatch(add(item));
         toast.success("Add to Cart Success!");
     };
+
+    function AddProductAmount(
+        setAmount: (amount: number) => void,
+        amount: number
+    ) {
+        setAmount(amount + 1);
+    }
+
+    function ReduceProductAmount(
+        setAmount: (amount: number) => void,
+        amount: number
+    ) {
+        if (amount > 1) {
+            setAmount(amount - 1);
+        }
+    }
 
     return (
         <MainLayout user={auth.user}>
@@ -92,6 +110,25 @@ export default function ProductDetail({
                                     </Button>
                                 ))}
                             </div>
+                        </div>
+                        <div className="h-[40px] gap-5 justify-end flex items-center">
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    ReduceProductAmount(setAmount, amount)
+                                }
+                            >
+                                <MinusCircle />
+                            </button>
+                            <span className="font-bold">{amount}</span>
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    AddProductAmount(setAmount, amount)
+                                }
+                            >
+                                <PlusCircle />
+                            </button>
                         </div>
                         <div className="space-y-2">
                             <Button className="w-full py-6 font-semibold rounded-full">
