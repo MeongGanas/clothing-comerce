@@ -29,7 +29,7 @@ export default function Home({
         if (auth.user) {
             dispatch(setCart(auth.user.cart));
         }
-    }, [auth.user, setCart, dispatch]);
+    }, [auth.user]);
 
     return (
         <MainLayout user={auth.user}>

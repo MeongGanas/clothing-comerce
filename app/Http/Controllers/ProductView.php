@@ -35,4 +35,12 @@ class ProductView extends Controller
                 ->get()
         ]);
     }
+
+    public function search()
+    {
+        $query = request("query");
+        $result = Product::where('isArchived', false)->where('name', 'like', '%' . $query . '%')->get();
+
+        return response()->json(["result" => $result]);
+    }
 }

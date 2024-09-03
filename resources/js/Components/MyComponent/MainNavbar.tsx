@@ -11,18 +11,36 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { User } from "@/types";
+import { Product, User } from "@/types";
 import {
     Dialog,
     DialogContent,
     DialogHeader,
+    DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
 import { Badge } from "../ui/badge";
-import { useAppSelector } from "@/hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { SyntheticEvent, useState } from "react";
+import axios from "axios";
+import { setCart } from "@/slicer/cartSlicer";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function MainNavbar({ user }: { user: User }) {
     const cartItems = useAppSelector((state) => state.cart.value);
+    const dispatch = useAppDispatch();
+
+    const logout = () => {
+        Inertia.post(
+            route("logout"),
+            {},
+            {
+                onSuccess: () => {
+                    dispatch(setCart([]));
+                },
+            }
+        );
+    };
 
     return (
         <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 gap-4 px-4 border-b bg-background md:px-6">
@@ -101,12 +119,10 @@ export default function MainNavbar({ user }: { user: User }) {
                             )}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
-                                asChild
                                 className="cursor-pointer"
+                                onClick={logout}
                             >
-                                <Link href={route("logout")} method="post">
-                                    Logout
-                                </Link>
+                                Logout
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -126,6 +142,21 @@ export default function MainNavbar({ user }: { user: User }) {
 }
 
 function SearchDialog() {
+    const [results, setResults] = useState([]);
+
+    const handleSearch = (e: SyntheticEvent) => {
+        setTimeout(async () => {
+            const target = e.target as HTMLInputElement;
+
+            if (target.value !== "") {
+                await axios
+                    .get(`/search?query=${target.value}`)
+                    .then((res) => setResults(res.data.result))
+                    .catch((err) => console.log(err));
+            }
+        }, 300);
+    };
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -135,21 +166,120 @@ function SearchDialog() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px] p-0 gap-0 overflow-hidden">
                 <DialogHeader className="px-4 border-b">
-                    <form action="" className="flex items-center">
+                    <form className="flex items-center">
                         <Search className="text-muted-foreground" size={20} />
                         <Input
                             placeholder="Search item here"
                             className="border-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                            onChange={handleSearch}
                         />
                     </form>
                 </DialogHeader>
+                <DialogTitle className="hidden">Searching...</DialogTitle>
                 <div className="grid sm:max-h-[240px] overflow-auto">
-                    <Link
-                        href="#"
-                        className="px-4 py-3 transition-all hover:bg-neutral-100"
-                    >
-                        Men Suit
-                    </Link>
+                    {results.length > 0 ? (
+                        results.map((result: Product) => (
+                            <Link
+                                href={`/detail/${result.id}`}
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                {result.name}
+                            </Link>
+                        ))
+                    ) : (
+                        <>
+                            <Link
+                                href="?category=men"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Men's Suit
+                            </Link>
+                            <Link
+                                href="?category=men&product=tshirt"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Men's Tshirt
+                            </Link>
+                            <Link
+                                href="?category=men&product=pants"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Men's Pants
+                            </Link>
+                            <Link
+                                href="?category=men&product=jacket"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Men's Jacket
+                            </Link>
+                            <Link
+                                href="?category=men&product=tuxedo"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Men's Tuxedo
+                            </Link>
+                            <Link
+                                href="?category=women"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Women's Suit
+                            </Link>
+                            <Link
+                                href="?category=women&product=tshirt"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Women's Tshirt
+                            </Link>
+                            <Link
+                                href="?category=women&product=pants"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Women's Pants
+                            </Link>
+                            <Link
+                                href="?category=women&product=jacket"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Women's Jacket
+                            </Link>
+                            <Link
+                                href="?category=women&product=tuxedo"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Women's Tuxedo
+                            </Link>
+                            <Link
+                                href="?category=kids"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Kids Suit
+                            </Link>
+                            <Link
+                                href="?category=kids&product=tshirt"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Kids's Tshirt
+                            </Link>
+                            <Link
+                                href="?category=kids&product=pants"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Kids's Pants
+                            </Link>
+                            <Link
+                                href="?category=kids&product=jacket"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Kids's Jacket
+                            </Link>
+                            <Link
+                                href="?category=kids&product=tuxedo"
+                                className="px-4 py-3 transition-all hover:bg-neutral-100"
+                            >
+                                Kids's Tuxedo
+                            </Link>
+                        </>
+                    )}
                 </div>
             </DialogContent>
         </Dialog>

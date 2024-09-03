@@ -29,7 +29,7 @@ export default function ProductDetail({
 
     useEffect(() => {
         dispatch(setCart(auth.user.cart));
-    }, [auth.user.cart, setCart, dispatch]);
+    }, [auth.user.cart]);
 
     const addToCart = () => {
         const item = {
@@ -69,7 +69,7 @@ export default function ProductDetail({
                     <div className="rounded-xl active bg-[#FCFBF4]">
                         <img
                             src={product.image}
-                            alt=""
+                            alt={product.name}
                             className="w-full max-w-sm mx-auto aspect-square"
                         />
                     </div>

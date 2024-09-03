@@ -15,7 +15,7 @@ export default function Cart({ auth }: PageProps) {
 
     useEffect(() => {
         dispatch(setCart(auth.user.cart ?? []));
-    }, [auth.user.cart, setCart, dispatch]);
+    }, [auth.user.cart]);
 
     const subtotal = useMemo(() => {
         return cartItems.reduce((acc, curr) => acc + curr.total_price, 0);

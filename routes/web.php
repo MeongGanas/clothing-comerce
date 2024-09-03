@@ -8,6 +8,8 @@ use Inertia\Inertia;
 
 Route::get('/', [ProductView::class, 'index'])->name("home");
 
+Route::get("/search", [ProductView::class, 'search'])->name("search");
+
 Route::get("/detail/{product}", [ProductView::class, 'show']);
 
 Route::middleware(['auth', 'checkIsCustomer'])->group(function () {
