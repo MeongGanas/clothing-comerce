@@ -13,7 +13,7 @@ Route::get("/search", [ProductView::class, 'search'])->name("search");
 Route::get("/detail/{product}", [ProductView::class, 'show']);
 
 Route::middleware(['auth', 'checkIsCustomer'])->group(function () {
-    Route::resource("/cart", CartController::class);
+    Route::resource("/cart", CartController::class)->except("edit");
 });
 
 Route::middleware(['auth', 'checkIsAdmin'])->group(function () {

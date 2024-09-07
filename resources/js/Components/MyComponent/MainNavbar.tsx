@@ -164,7 +164,7 @@ function SearchDialog() {
                     <Search className="text-muted-foreground" size={20} />
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px] p-0 gap-0 overflow-hidden">
+            <DialogContent className="w-full gap-0 p-0 overflow-hidden">
                 <DialogHeader className="px-4 border-b">
                     <form className="flex items-center">
                         <Search className="text-muted-foreground" size={20} />
@@ -176,7 +176,7 @@ function SearchDialog() {
                     </form>
                 </DialogHeader>
                 <DialogTitle className="hidden">Searching...</DialogTitle>
-                <div className="grid sm:max-h-[240px] overflow-auto">
+                <div className="grid max-h-[calc(100vh_-_theme(spacing.11))] overflow-auto">
                     {results.length > 0 ? (
                         results.map((result: Product) => (
                             <Link

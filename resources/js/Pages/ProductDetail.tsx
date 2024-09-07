@@ -28,21 +28,29 @@ export default function ProductDetail({
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(setCart(auth.user.cart));
-    }, [auth.user.cart]);
+        if (auth.user) {
+            dispatch(setCart(auth.user.cart));
+        }
+    }, [auth.user]);
+
+    const buyNow = () => {};
 
     const addToCart = () => {
-        const item = {
-            user_id: auth.user.id,
-            product_id: product.id,
-            product: { ...product },
-            selected_size: selectedSize,
-            amount: amount,
-            total_price: product.price * amount,
-        };
-        axios.post("/cart", item);
-        dispatch(add(item));
-        toast.success("Add to Cart Success!");
+        if (auth.user) {
+            const item = {
+                user_id: auth.user.id,
+                product_id: product.id,
+                product: { ...product },
+                selected_size: selectedSize,
+                amount: amount,
+                total_price: product.price * amount,
+            };
+            axios.post("/cart", item);
+            dispatch(add(item));
+            toast.success("Add to Cart Success!");
+        } else {
+            window.location.replace("/login");
+        }
     };
 
     function AddProductAmount(
@@ -131,7 +139,10 @@ export default function ProductDetail({
                             </button>
                         </div>
                         <div className="space-y-2">
-                            <Button className="w-full py-6 font-semibold rounded-full">
+                            <Button
+                                className="w-full py-6 font-semibold rounded-full"
+                                onClick={buyNow}
+                            >
                                 Buy Now
                             </Button>
                             <Button

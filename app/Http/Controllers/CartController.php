@@ -33,17 +33,24 @@ class CartController extends Controller
         $validatedData["amount"] = intval($request->amount);
         $validatedData["total_price"] = intval($request->total_price);
 
-        Cart::create($validatedData);
+        $cartQuery = Cart::where('product_id', $validatedData["product_id"])
+            ->where('user_id', $validatedData["user_id"])
+            ->where('selected_size', $validatedData["selected_size"]);
+
+        $existData = $cartQuery->first();
+
+        if (!$existData) {
+            Cart::create($validatedData);
+        } else {
+            $newData = [
+                "amount" => $validatedData["amount"] + $existData["amount"],
+                "total_price" => $validatedData["total_price"] + $existData["total_price"],
+            ];
+
+            $cartQuery->update($newData);
+        }
 
         return redirect()->intended(route('cart.index', absolute: false));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
     }
 
     /**
@@ -51,6 +58,8 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        Cart::destroy('id', $cart->id);
+
+        return redirect()->intended(route('cart.index', absolute: false));
     }
 }

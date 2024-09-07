@@ -38,6 +38,7 @@ export interface Order {
 
 export interface Cart {
     id?: string;
+    product_id: string;
     product: Product;
     user_id: string;
     amount: number;

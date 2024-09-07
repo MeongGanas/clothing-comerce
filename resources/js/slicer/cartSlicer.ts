@@ -17,10 +17,21 @@ export const cartSlice = createSlice({
             state.value = action.payload;
         },
         add: (state, action: PayloadAction<Cart>) => {
-            state.value.push(action.payload);
+            const isInTheCart = state.value.some(
+                (cart) =>
+                    cart.product_id === action.payload.product_id &&
+                    cart.selected_size === action.payload.selected_size
+            );
+
+            if (!isInTheCart) {
+                state.value.push(action.payload);
+            }
         },
-        remove: (state, action: PayloadAction<{ id: string }>) => {
-            state.value.filter((cart) => cart.product.id !== action.payload.id);
+        remove: (state, action: PayloadAction<{ id: string | undefined }>) => {
+            const filteredCart = state.value.filter(
+                (cart) => !(cart.id === action.payload.id)
+            );
+            state.value = filteredCart;
         },
     },
 });

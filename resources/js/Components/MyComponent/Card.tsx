@@ -3,6 +3,9 @@ import { Link } from "@inertiajs/react";
 import { Button } from "../ui/button";
 import { Heart, MinusCircle, PlusCircle, Trash } from "lucide-react";
 import formatPrice from "@/lib/formatPrice";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { remove } from "@/slicer/cartSlicer";
+import axios from "axios";
 
 export function AllProductCards({ products }: { products: ProductsProps }) {
     return (
@@ -50,11 +53,18 @@ export function ProductCard({ product }: { product: Product }) {
 }
 
 export function CartCard({ item }: { item: Cart }) {
+    const dispatch = useAppDispatch();
+
+    const removeFromCart = () => {
+        axios.delete(`/cart/${item.id}`);
+        dispatch(remove({ id: item.id }));
+    };
+
     return (
         <div className="grid grid-cols-3 gap-5 my-5 md:grid-cols-4">
             <Link
                 href={`/detail/${item.product.id}`}
-                className="flex items-center justify-center col-span-1 rounded-md bg-[#FCFBF4]"
+                className="flex items-center justify-center rounded-md bg-[#FCFBF4]"
             >
                 <img
                     src={item.product.image}
@@ -62,14 +72,17 @@ export function CartCard({ item }: { item: Cart }) {
                     alt={item.product.id}
                 />
             </Link>
-            <div className="flex justify-between col-span-2 md:col-span-3">
-                <div className="flex flex-col justify-between space-y-3">
+            <div className="flex justify-between col-span-2 gap-2 md:col-span-3">
+                <div className="flex flex-col justify-between w-full space-y-3">
                     <Link
                         href={`/detail/${item.product.id}`}
-                        className="mb-2 text-lg font-bold sm:text-xl md:text-2xl"
+                        className="text-lg font-bold sm:text-xl md:text-2xl"
                     >
                         {item.product.name}
                     </Link>
+                    <h1 className="text-lg font-bold sm:hidden">
+                        {formatPrice(item.total_price)}
+                    </h1>
                     <div className="text-sm text-gray-400 md:text-base">
                         <h4 className="capitalize">
                             Product: {item.product.product}
@@ -81,17 +94,27 @@ export function CartCard({ item }: { item: Cart }) {
                             Color: {item.product.color}
                         </h4>
                     </div>
-                    <div className="flex items-center">
-                        <Button size={"icon"} variant={"ghost"}>
-                            <Heart />
-                        </Button>
-                        <Button size={"icon"} variant={"ghost"}>
+                    <div className="flex items-center justify-between">
+                        <Button
+                            size={"icon"}
+                            variant={"ghost"}
+                            onClick={removeFromCart}
+                        >
                             <Trash />
                         </Button>
+                        <div className="sm:hidden h-[40px] gap-5 flex items-center">
+                            <button type="button">
+                                <MinusCircle />
+                            </button>
+                            <span className="font-bold">{item.amount}</span>
+                            <button type="button">
+                                <PlusCircle />
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div className="flex flex-col justify-between">
-                    <h1 className="text-lg font-bold text-end sm:text-xl md:text-2xl">
+                <div className="flex-col justify-between hidden sm:flex">
+                    <h1 className="font-bold text-end sm:text-xl md:text-2xl">
                         {formatPrice(item.total_price)}
                     </h1>
                     <div className="h-[40px] gap-5 justify-end flex items-center">
