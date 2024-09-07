@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Http\Requests\StoreCartRequest;
-use App\Http\Requests\UpdateCartRequest;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -53,12 +51,23 @@ class CartController extends Controller
         return redirect()->intended(route('cart.index', absolute: false));
     }
 
+    public function update(Request $request, Cart $cart)
+    {
+        $validatedData = $request->validate([
+            "amount" => "required|integer",
+        ]);
+
+        Cart::where('id', $cart->id)->update($validatedData);
+
+        return $request->all();
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Cart $cart)
     {
-        Cart::destroy('id', $cart->id);
+        $cart->delete();
 
         return redirect()->intended(route('cart.index', absolute: false));
     }

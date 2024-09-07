@@ -1,10 +1,10 @@
 import { Cart, Product, ProductsProps } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Button } from "../ui/button";
-import { Heart, MinusCircle, PlusCircle, Trash } from "lucide-react";
+import { MinusCircle, PlusCircle, Trash } from "lucide-react";
 import formatPrice from "@/lib/formatPrice";
 import { useAppDispatch } from "@/hooks/useRedux";
-import { remove } from "@/slicer/cartSlicer";
+import { remove, updateAmount } from "@/slicer/cartSlicer";
 import axios from "axios";
 
 export function AllProductCards({ products }: { products: ProductsProps }) {
@@ -56,8 +56,17 @@ export function CartCard({ item }: { item: Cart }) {
     const dispatch = useAppDispatch();
 
     const removeFromCart = () => {
-        axios.delete(`/cart/${item.id}`);
         dispatch(remove({ id: item.id }));
+    };
+
+    const addAmount = () => {
+        dispatch(updateAmount({ id: item.id, amount: item.amount + 1 }));
+    };
+
+    const reduceAmount = () => {
+        if (item.amount > 1) {
+            dispatch(updateAmount({ id: item.id, amount: item.amount - 1 }));
+        }
     };
 
     return (
@@ -73,7 +82,7 @@ export function CartCard({ item }: { item: Cart }) {
                 />
             </Link>
             <div className="flex justify-between col-span-2 gap-2 md:col-span-3">
-                <div className="flex flex-col justify-between w-full space-y-3">
+                <div className="flex flex-col justify-between w-full space-y-1 sm:space-y-3">
                     <Link
                         href={`/detail/${item.product.id}`}
                         className="text-lg font-bold sm:text-xl md:text-2xl"
@@ -103,11 +112,18 @@ export function CartCard({ item }: { item: Cart }) {
                             <Trash />
                         </Button>
                         <div className="sm:hidden h-[40px] gap-5 flex items-center">
-                            <button type="button">
-                                <MinusCircle />
+                            <button
+                                type="button"
+                                className={`${
+                                    item.amount < 1
+                                        ? "cursor-not-allowed"
+                                        : "cursor-pointer"
+                                }`}
+                            >
+                                <MinusCircle onClick={reduceAmount} />
                             </button>
                             <span className="font-bold">{item.amount}</span>
-                            <button type="button">
+                            <button type="button" onClick={addAmount}>
                                 <PlusCircle />
                             </button>
                         </div>
@@ -118,11 +134,18 @@ export function CartCard({ item }: { item: Cart }) {
                         {formatPrice(item.total_price)}
                     </h1>
                     <div className="h-[40px] gap-5 justify-end flex items-center">
-                        <button type="button">
-                            <MinusCircle />
+                        <button
+                            type="button"
+                            className={`${
+                                item.amount < 1
+                                    ? "cursor-not-allowed"
+                                    : "cursor-pointer"
+                            }`}
+                        >
+                            <MinusCircle onClick={reduceAmount} />
                         </button>
                         <span className="font-bold">{item.amount}</span>
-                        <button type="button">
+                        <button type="button" onClick={addAmount}>
                             <PlusCircle />
                         </button>
                     </div>

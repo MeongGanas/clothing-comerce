@@ -45,7 +45,6 @@ export default function ProductDetail({
                 amount: amount,
                 total_price: product.price * amount,
             };
-            axios.post("/cart", item);
             dispatch(add(item));
             toast.success("Add to Cart Success!");
         } else {
